@@ -7,7 +7,7 @@ module.exports = (db, app, passport) => {
   // Configure express-session to use MySQL for session storage
   app.use(session({
     key: 'userId',
-    secret: process.env.AUTH_SECRET || 'Birdman123!',
+    secret: process.env.AUTH_SECRET || '12345678',
     store: new SequelizeStore({
       db: db.sequelize,
       table: 'Session',

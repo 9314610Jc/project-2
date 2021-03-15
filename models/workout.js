@@ -1,16 +1,16 @@
 module.exports = function (sequelize, DataTypes) {
-  const workout = sequelize.define('Workout', {
+  const Workout = sequelize.define('Workout', {
     text: DataTypes.STRING,
     description: DataTypes.TEXT
   });
 
-  Example.associate = function (models) {
-    Example.belongsTo(models.User, {
+  Workout.associate = function (models) {
+    Workout.belongsTo(models.User, {
       foreignKey: {
         allowNull: false
       }
     });
   };
 
-  return Example;
+  return Workout;
 };
