@@ -57,7 +57,7 @@ module.exports = (db) => {
   });
 
   // Load example index page
-  router.get('/workout', function (req, res) {
+  router.get('/example', function (req, res) {
     if (req.isAuthenticated()) {
       db.Example.findAll({ where: { UserId: req.session.passport.user.id }, raw: true }).then(function (dbExamples) {
         res.render('example', {
