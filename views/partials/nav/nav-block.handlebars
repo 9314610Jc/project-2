@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+<nav class="navbar navbar-expand-sm bg-light navbar-light fixed-top">
   <!-- Brand/logo -->
   <a class="navbar-brand" href="/">
-    AppName
+    Workout Buddy
   </a>
   
   <!-- Links -->
@@ -12,8 +12,11 @@
     </li> --}}
 
     {{#if isloggedin}}
+          <li class="nav-item">
+        <a class="nav-link" href="/feed">Feed</a>
+      </li>
       <li class="nav-item">
-        <a class="nav-link" href="/example">Example page</a>
+        <a class="nav-link" href="/workout">Workout page</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/profile">My Profile</a>
@@ -22,6 +25,7 @@
         <a class="nav-link" href="/logout">Logout</a>
       </li>
     {{else}}
+
       <li class="nav-item">
         <a class="nav-link" href="#" id="login-modal">Login</a>
       </li>

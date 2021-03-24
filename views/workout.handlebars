@@ -12,9 +12,10 @@
               Workout Type
             </button>
             <ul class="dropdown-menu" id="workoutDropdown" aria-labelledby="dropdownMenuButton">
-              <li class="dropdown-item" >Cardio</li>
-              <li class="dropdown-item" >Weightlifting</li>
-              <li class="dropdown-item" >Stretching</li>
+              <li class="dropdown-item" >Aerobics</li>
+              <li class="dropdown-item" >Strength</li>
+              <li class="dropdown-item" >Flexibility</li>
+              <li class="dropdown-item" >Balance</li>
             </ul>
           </div>
           <div class="form-group">
@@ -22,13 +23,18 @@
             <textarea class="form-control" id="example-description" aria-describedby="example-description"
               placeholder="Enter Workout Description Here!"></textarea>
           </div>
+          <div class="form-group">
+            <label for="calories-burned">Calories Burned. <em>(Not necessary.)</em></label>
+            <textarea class="form-control" id="calories-burned" aria-describedby="calories-burned"
+              placeholder="Enter The Number of Calories You Burned!"></textarea>
+          </div>
           <button id="submit" class="btn btn-primary float-right">Submit</button>
         </form>
         <h4>Workouts belonging to this user:</h4>
         <ul id="example-list" class="list-group">
-          {{#each examples}}
+          {{#each workouts}}
           <li data-id="{{this.id}}" class="list-group-item">
-            <a href="example/{{this.id}}">{{this.text}}</a>
+            <a href="workout/{{this.id}}">{{this.text}}</a>
             <button class="btn btn-danger float-right delete">ｘ</button>
           </li>
           {{/each}}

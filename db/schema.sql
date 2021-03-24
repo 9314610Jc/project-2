@@ -1,2 +1,2 @@
-drop database if exists project2_dev;
-create database project2_dev;
+drop database if exists workouts_db;
+create database workouts_db;

@@ -2,27 +2,30 @@ module.exports = (passport, db) => {
   return {
     register: (req, res) => {
       if (!req.body.email || !req.body.password) {
-        return res.json({ message: 'Email and Password required!' });
+        return res.json({ message: "Email and Password required!" });
       }
 
-      db.User.sync().then(() => {
-        const newUser = {
-          email: req.body.email,
-          password: req.body.password,
-          firstName: req.body.firstName,
-          lastName: req.body.lastName
-        };
+      db.User.sync()
+        .then(() => {
+          const newUser = {
+            email: req.body.email,
+            password: req.body.password,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            workout: req.body.workout,
+          };
 
-        return db.User.create(newUser).then(() => {
-          res.status(200).json({ message: 'Registered successfully.' });
+          return db.User.create(newUser).then(() => {
+            res.status(200).json({ message: "Registered successfully." });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(403).json({ error: "Email already exists!" });
         });
-      }).catch((err) => {
-        console.log(err);
-        res.status(403).json({ error: 'Email already exists!' });
-      });
     },
     login: (req, res, next) => {
-      passport.authenticate('local', (err, user) => {
+      passport.authenticate("local", (err, user) => {
         if (err) {
           return next(err);
         }
@@ -34,7 +37,10 @@ module.exports = (passport, db) => {
             return res.status(200).json({ loggedIn: true });
           });
         } else {
-          res.json({ loggedIn: false, error: 'Can not log in, check your user name and password!' });
+          res.json({
+            loggedIn: false,
+            error: "Can not log in, check your user name and password!",
+          });
         }
       })(req, res, next);
     },
@@ -44,20 +50,24 @@ module.exports = (passport, db) => {
         if (err) {
           return next(err);
         }
-        res.clearCookie('connect.sid', { path: '/' });
-        res.redirect('/');
+        res.clearCookie("connect.sid", { path: "/" });
+        res.redirect("/");
       });
     },
     updateUser: (req, res) => {
       // console.log('req.body:', req.body);
-      db.User.update({
-        email: req.body.email,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        password: req.body.password
-      }, {
-        where: { id: req.params.id }
-      }).then(result => {
+      db.User.update(
+        {
+          email: req.body.email,
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          password: req.body.password,
+          workout: req.body.workout,
+        },
+        {
+          where: { id: req.params.id },
+        }
+      ).then((result) => {
         // console.log(result);
         res.json(result);
       });
@@ -67,7 +77,7 @@ module.exports = (passport, db) => {
       const pwd = req.body.password;
 
       db.User.findOne({
-        where: { email: email }
+        where: { email: email },
       }).then((user) => {
         if (!user) {
           return res.json(false);
@@ -80,12 +90,14 @@ module.exports = (passport, db) => {
     },
     deleteUser: (req, res) => {
       db.User.destroy({
-        where: { id: req.params.id }
-      }).then(() => {
-        res.json(true);
-      }).catch(() => {
-        res.json(false);
-      });
-    }
+        where: { id: req.params.id },
+      })
+        .then(() => {
+          res.json(true);
+        })
+        .catch(() => {
+          res.json(false);
+        });
+    },
   };
 };

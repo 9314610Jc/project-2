@@ -1,50 +1,57 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 module.exports = function (sequelize, DataTypes) {
-  const User = sequelize.define('User', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
+  const User = sequelize.define(
+    "User",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      firstName: {
+        type: DataTypes.STRING,
+      },
+      lastName: {
+        type: DataTypes.STRING,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: {
+          args: true,
+          msg: "User already exists",
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      workout: {
+        type: DataTypes.STRING,
+      },
+      isAdmin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
-    firstName: {
-      type: DataTypes.STRING
-    },
-    lastName: {
-      type: DataTypes.STRING
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: {
-        args: true,
-        msg: 'User already exists'
-      }
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    isAdmin: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
+    {
+      timestamps: true,
+      hooks: {
+        beforeValidate: function (user) {
+          if (user.changed("password")) {
+            return bcrypt.hash(user.password, 10).then((password) => {
+              user.password = password;
+            });
+          }
+        },
+      },
     }
-  }, {
-    timestamps: true,
-    hooks: {
-      beforeValidate: function (user) {
-        if (user.changed('password')) {
-          return bcrypt.hash(user.password, 10).then((password) => {
-            user.password = password;
-          });
-        }
-      }
-    }
-  });
+  );
 
   User.associate = function (models) {
-    User.hasMany(models.Example, {
-      onDelete: 'cascade'
+    User.hasMany(models.Workout, {
+      onDelete: "cascade",
     });
   };
 

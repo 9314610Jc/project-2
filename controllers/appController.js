@@ -1,22 +1,24 @@
 module.exports = function (db) {
   return {
     // Get all examples
-    getExamples: function (req, res) {
-      db.Example.findAll({ where: { UserId: req.session.passport.user.id } }).then(function (dbExamples) {
-        res.json(dbExamples);
+    getWorkouts: function (req, res) {
+      db.Workout.findAll({
+        where: { UserId: req.session.passport.user.id },
+      }).then((dbWorkout) => {
+        res.json(dbWorkout);
       });
     },
     // Create a new example
-    createExample: function (req, res) {
-      db.Example.create(req.body).then(function (dbExample) {
-        res.json(dbExample);
+    createWorkout: function (req, res) {
+      db.Workout.create(req.body).then((dbWorkout) => {
+        res.json(dbWorkout);
       });
     },
     // Delete an example by id
-    deleteExample: function (req, res) {
-      db.Example.destroy({ where: { id: req.params.id } }).then(function (dbExample) {
-        res.json(dbExample);
+    deleteWorkout: function (req, res) {
+      db.Workout.destroy({ where: { id: req.params.id } }).then((dbWorkout) => {
+        res.json(dbWorkout);
       });
-    }
+    },
   };
 };
